@@ -69,10 +69,12 @@ class StockController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit($id) {
+        $stock = Stock::find($id);
+        return view('stocks.edit', compact('stock'));
     }
+    
+    
 
     /**
      * Update the specified resource in storage.
@@ -81,10 +83,23 @@ class StockController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(Request $request, $id) {
+        $request->validate([
+            'stock_name'=>'required',
+            'ticket'=>'required',
+            'value'=>'required|max:10|regex:/^-?[0-9]+(?:\.[0-9]{1,2})?$/'
+        ]);
+        $stock = Stock::find($id);
+        $stock->stock_name = $request->get('stock_name');
+        $stock->ticket = $request->get('ticket');
+        $stock->value = $request->get('value');
+        $stock->save();
+        return redirect('/stocks')->with('success', 'Stock updated.');
     }
+    
+    
+
+    
 
     /**
      * Remove the specified resource from storage.
@@ -94,6 +109,14 @@ class StockController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $stock = Stock::find($id);
+    
+        if ($stock) {
+            $stock->delete();
+            return redirect('/stocks')->with('success', 'Stock deleted.');
+        } else {
+            return redirect('/stocks')->with('error', 'Stock not found.');
+        }
     }
+    
 }
