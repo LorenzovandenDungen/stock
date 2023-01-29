@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('stocks', [App\Http\Controllers\StockController::class, 'index']);
 Route::get('stocks/create', [App\Http\Controllers\StockController::class, 'create']);
-Route::patch('stocks/store', [App\Http\Controllers\StockController::class, 'store']);
-Route::get('stocks/{id}/edit', [App\Http\Controllers\StockController::class, 'edit']);
+Route::post('stocks/store', [App\Http\Controllers\StockController::class, 'store']);
+Route::get('stocks/edit/{id}', [App\Http\Controllers\StockController::class, 'edit']);
 Route::post('stocks/update/{id}', [App\Http\Controllers\StockController::class, 'update']);
-Route::post('stocks/destroy/{id}',  [App\Http\Controllers\StockController::class, 'destroy']);
+Route::delete('stocks/destroy/{id}',  [App\Http\Controllers\StockController::class, 'destroy']);
+
 
